@@ -1,9 +1,10 @@
 h1.sansserif {
-    font-family: Helvetica, sans-serif;
+    font-family: Futura, Helvetica, sans-serif;
+    color: white;
 }
 
 body {
-    background-color: burlywood;
+    background-color: #171616;
 }
 
 p.sansserif {

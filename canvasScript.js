@@ -1,4 +1,4 @@
-const canvas = document.getElementById('canvas');
+const canvas = document.getElementById('canvas');x
 const ctx = canvas.getContext('2d');
 ctx.canvas.width = window.innerWidth - 100;
 ctx.canvas.height = window.innerHeight - 100;
@@ -6,8 +6,11 @@ ctx.canvas.height = window.innerHeight - 100;
 const cellX = 25;
 const cellY = 25;
 
-const numXCells = Math.floor(ctx.canvas.width / cellX);
-const numYCells = Math.floor(ctx.canvas.height / cellY);
+ctx.canvas.width -= ctx.canvas.width % cellX;
+ctx.canvas.height -= ctx.canvas.height % cellY;
+
+const numXCells = Math.floor(ctx.canvas.width / cellX) - 1;
+const numYCells = Math.floor(ctx.canvas.height / cellY) - 1;
 
 var score = 0;
 
@@ -22,15 +25,13 @@ function Seg(x, y) {
     this.yPos = y;
 }
 
-function Col(red,gre,blu){
-    this.r = red;
-    this.g = gre;
-    this.b = blu;
-}
+var startColor = [247,10,196];
+var endColor = [247,208,10];
+
+
 
 var segments = [new Seg(Math.floor(numXCells/2)*cellX, Math.floor(numYCells/2)*cellY), new Seg(Math.floor(numXCells/2)*cellX, (Math.floor(numYCells/2) + 1)*cellY)];
 
-var colors = [new Col(65,0,255),new Col(255,65,0)];
 
 //for (i=1;i<3;i++){
   //  segments.push(new Seg(Math.floor(numXCells/2)*cellX, (Math.floor(numYCells/2) + 1)*cellY));
@@ -41,15 +42,15 @@ function drawSquare(){
     
     for (i=0; i < segments.length; i++){
         //Draw Cell
-        ctx.fillStyle = 'hsl(' + 360 * i/segments.length + ', 75%, 50%)';
+        //ctx.fillStyle = 'hsl(' + 360 * i/segments.length + ', 75%, 50%)';
         //ctx.fillStyle = 'hsl(207, 75%, ' + 100 * i/segments.length + '%)';
-        //ctx.fillStyle = 'rgb(' + colors[i].r + ',' + colors[i].g + ',' + colors.b + ')';
+        ctx.fillStyle = 'rgb(' + interpolateRGB(startColor[0],endColor[0],i,segments.length) + ',' + interpolateRGB(startColor[1],endColor[1],i,segments.length)+ ',' + interpolateRGB(startColor[2],endColor[2],i,segments.length) + ')';
         
         ctx.fillRect(segments[i].xPos, segments[i].yPos, cellX, cellY);
     }
     
     //Draw Food
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'white';
     ctx.fillRect(foodX, foodY, cellX, cellY);
 }
 
@@ -186,13 +187,13 @@ function checkSnek(){
     for (i=1; i < segments.length; i++){
         if (segments[0].xPos == segments[i].xPos && segments[0].yPos == segments[i].yPos){
             //game end event
-            alert("Game Over");
+            alert("Game Over: Snek");
             endGame();
         }
     }
     
     if (segments[0].xPos < 0 || segments[0].xPos > (numXCells * cellX) || segments[0].yPos < 0 || segments[0].yPos > (numYCells * cellY)) {
-        alert("You fucked up game over");
+        alert("Game Over: Wall");
         endGame();
     }
 }
@@ -217,6 +218,6 @@ function setScore(newScore){
     document.getElementById("score").textContent = "snek: " + score;
 }
 
-function interpolateRGB(){
-    
+function interpolateRGB(start,end,step,totalSteps){
+    return Math.floor(start + ((step/totalSteps) * (end - start)));
 }
