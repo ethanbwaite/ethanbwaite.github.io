@@ -1,0 +1,22 @@
+h1.sansserif {
+    font-family: Helvetica, sans-serif;
+}
+
+body {
+    background-color: burlywood;
+}
+
+p.sansserif {
+    font-family: "Helvetica Narrow", Arial, sans-serif;
+}
+
+div.a {
+    text-align: center;
+}
+
+div.b {
+    text-align: justify;
+    margin-left: 300px;
+    margin-right: 300px;
+}
+
