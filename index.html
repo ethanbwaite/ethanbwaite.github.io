@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Press+Start+2P&display=swap" rel="stylesheet">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Hello World!</title>
@@ -8,12 +9,19 @@
     </head>
     <body>
         <div class="a">
-        <h1 id="score" class="sansserif">sneeek: 0</h1> 
+            <h1 id="name" class="sansserif">SNEKGAME</h1> 
+            <h2 id="score" class="sansserif">SNEK:\n</h2>
+            
         </div>
         
+        <canvas id="canvas"></canvas>
         
-        <canvas id="canvas" style="border: 3px solid white;"></canvas>
-        
+        <div class="menu">
+            
+            <button id="buttonStart" class="buttonStart" onclick="startClicked()">START</button>
+            <h3 id="gameOver" class="sansserif"></h3>
+            
+        </div>
         <script src="canvasScript.js"></script>
     </body>
 </html>
