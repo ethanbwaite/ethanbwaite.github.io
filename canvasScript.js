@@ -3,20 +3,21 @@ const ctx = canvas.getContext('2d');
 ctx.canvas.width = 800;//window.innerWidth - 100;
 ctx.canvas.height = 600;//window.innerHeight - 300;
 
-const cellX = 25;
-const cellY = 25;
+var numXCells;
+var numYCells;
+
+var cellX = 25;
+var cellY = 25;
+
+calculateNumCells();
 
 ctx.canvas.width -= ctx.canvas.width % cellX;
 ctx.canvas.height -= ctx.canvas.height % cellY;
 
-const numXCells = Math.floor(ctx.canvas.width / cellX) - 1;
-const numYCells = Math.floor(ctx.canvas.height / cellY) - 1;
-
-
 var drawNom = false;
 var nomX = 100;
 var nomY = 100;
-var nomAlpha = 1;
+var nomAlpha = 0;
 var nomDelta = 1;
 
 var score = 0;
@@ -29,8 +30,9 @@ var foodY = 0;
 
 var direction = 1;
 var snekMoved = true;
-var snekStep = 10;//number of intervals to wait before moving
+var snekStep = 20;//number of intervals to wait before moving
 var currentStep = 0;
+var snekSpeed = .5;//value from slider to modify snake speed
 
 function Seg(x, y) {
     this.xPos = x;
@@ -52,6 +54,10 @@ document.documentElement.style.overflow = 'hidden';
 /*for (i=1;i<400;i++){
     segments.push(new Seg(Math.floor(numXCells/2)*cellX, (Math.floor(numYCells/2) + 1)*cellY));
 }*/
+function calculateNumCells(){
+    numXCells = Math.floor(ctx.canvas.width / cellX) - 1;
+    numYCells = Math.floor(ctx.canvas.height / cellY) - 1;
+}
 
 function animateNom(){
     if (drawNom = true){
@@ -91,20 +97,30 @@ function drawSquare(){
 }
 
 function startClicked(){
+    calculateNumCells();
     interval = setInterval(snek, 10);
     document.getElementById("buttonStart").style.display = "none";
-    document.getElementById("gameOver").textContent = ""
-    segments = [new Seg(Math.floor(numXCells/2)*cellX, Math.floor(numYCells/2)*cellY), new Seg(Math.floor(numXCells/2)*cellX, (Math.floor(numYCells/2) + 1)*cellY)];
+    document.getElementById("gameOver").textContent = "";
+    document.getElementById("buttonSettings").style.display = "none";
+    resetSnek();
     placeFood();
     setScore(0);
+    
+}
+
+function resetSnek(){
+    segments = [new Seg(Math.floor(numXCells/2)*cellX, Math.floor(numYCells/2)*cellY), new Seg(Math.floor(numXCells/2)*cellX, (Math.floor(numYCells/2) + 1)*cellY)];
+    direction = 1;
 }
 
 //snek step
 function snek(){
+    console.log("snekX: " + segments[0].xPos + "snekY: " + segments[0].yPos);
+    calculateNumCells();
     currentStep++;
     drawSquare();
     animateNom();
-    if (currentStep > snekStep){
+    if (currentStep > Math.floor(snekStep * snekSpeed)){
         currentStep = 0;
         checkFood();
 
@@ -128,7 +144,6 @@ function snek(){
                 break;
         }
         checkSnek();
-        
         snekMoved = true;
     }
 }
@@ -252,12 +267,6 @@ function checkFood(){
             segments.push(new Seg(segments[segments.length-1].xPos,segments[segments.length-1].yPos));
         }
         
-        /*for(i=0;i<3;i++){
-            endColor[i] = startColor[i];
-        }*/
-        /*for(i=0;i<3;i++){
-            startColor[i] = foodColor[i];
-        }*/
         resetNom();
         nomX = foodX;
         nomY = foodY;
@@ -275,6 +284,7 @@ function endGame() {
     
     clearInterval(interval);
     document.getElementById("buttonStart").style.display = "inline-block";
+    document.getElementById("buttonSettings").style.display = "inline-block"
     document.getElementById("gameOver").textContent = "DED SNEK"
 
 }
@@ -286,4 +296,48 @@ function setScore(newScore){
 
 function interpolateRGB(start,end,step,totalSteps){
     return Math.floor(start + ((step/totalSteps) * (end - start)));
+}
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("buttonSettings");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+var cellSlider = document.getElementById("cellSizeSlider");
+
+cellSlider.onchange = function(){
+    document.getElementById("cellSizeText").textContent = "SNEK CELL SIZE: " + cellSlider.value + "px";
+    cellX = parseInt(cellSlider.value);
+    cellY = parseInt(cellSlider.value);
+    calculateNumCells();
+    resetSnek();
+    console.log("cellX: " + cellX + "cellY: " + cellY + "numXCells: " + numXCells + "numYCells: " + numYCells );
+}
+
+var speedSlider = document.getElementById("snekSpeedSlider");
+
+speedSlider.onchange = function(){
+    document.getElementById("snekSpeedText").textContent = "SNEK SPEED: " + speedSlider.value + "%";
+    snekSpeed = 1 - (parseInt(speedSlider.value) / 250);
 }

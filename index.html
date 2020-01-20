@@ -4,13 +4,13 @@
         <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Press+Start+2P&display=swap" rel="stylesheet">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Hello World!</title>
+        <title>snek.</title>
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
         <div class="a">
             <h1 id="name" class="sansserif">SNEKGAME</h1> 
-            <h2 id="score" class="sansserif">SNEK:\n</h2>
+            <h2 id="score" class="sansserif">SNEK: </h2>
             
         </div>
         
@@ -19,8 +19,32 @@
         <div class="menu">
             
             <button id="buttonStart" class="buttonStart" onclick="startClicked()">START</button>
+            <button id="buttonSettings" class="buttonSettings" onclick=""> ⛭ </button>
             <h3 id="gameOver" class="sansserif"></h3>
-            
+            <div id="myModal" class="modal">
+
+              <!-- Modal content -->
+              <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h1>SETTINGS</h1>
+                    
+              </div>
+              <div class="modal-body">
+                <p></p>
+                  <div class="slidecontainer">
+  
+                      <p id="cellSizeText">SNEK CELL SIZE: 20px</p>
+                        <input type="range" min="1" max="50" value="20" class="slider" id="cellSizeSlider">
+                    
+  
+                      <p id="snekSpeedText">SNEK SPEED: 100%</p>
+                        <input type="range" min="10" max="200" value="100" class="slider" id="snekSpeedSlider">
+                    </div>
+              </div>
+              </div>
+
+            </div>
         </div>
         <script src="canvasScript.js"></script>
     </body>
