@@ -30,10 +30,10 @@ var foodY = 0;
 
 
 var direction = 1;
-var snekMoved = true;
-var snekStep = 20; //number of intervals to wait before moving
+var snakeMoved = true;
+var snakeStep = 20; //number of intervals to wait before moving
 var currentStep = 0;
-var snekSpeed = .5; //value from slider to modify snake speed
+var snakeSpeed = .5; //value from slider to modify snake speed
 
 function Seg(x, y) {
     this.xPos = x;
@@ -95,28 +95,28 @@ function drawSquare(){
 }
 
 function startClicked(){
-    interval = setInterval(snek, 10);
+    interval = setInterval(snake, 10);
     document.getElementById("buttonStart").style.display = "none";
     document.getElementById("gameOver").textContent = "";
     document.getElementById("buttonSettings").style.display = "none";
-    resetSnek();
+    resetsnake();
     placeFood();
     setScore(0);
     
 }
 
-function resetSnek(){
+function resetsnake(){
     segments = [new Seg(Math.floor(numXCells/2)*cellX, Math.floor(numYCells/2)*cellY), new Seg(Math.floor(numXCells/2)*cellX, (Math.floor(numYCells/2) + 1)*cellY)];
     direction = 1;
 }
 
 //Main Snake Step Handler
-function snek(){
-    console.log("snekX: " + segments[0].xPos + "snekY: " + segments[0].yPos);
+function snake(){
+    console.log("snakeX: " + segments[0].xPos + "snakeY: " + segments[0].yPos);
     currentStep++;
     drawSquare();
     animateNom();
-    if (currentStep > Math.floor(snekStep * snekSpeed)){
+    if (currentStep > Math.floor(snakeStep * snakeSpeed)){
         currentStep = 0;
         checkFood();
 
@@ -140,13 +140,13 @@ function snek(){
                 break;
         }
         checkFailureConditions();
-        snekMoved = true;
+        snakeMoved = true;
     }
 }
 
 //Handle keyboard input
 document.onkeydown = function(event) {
-    if (snekMoved){
+    if (snakeMoved){
         switch (event.keyCode){
             //Arrow Keys
             case 37:
@@ -202,7 +202,7 @@ document.onkeydown = function(event) {
         }
     }
     event.preventDefault();
-    snekMoved = false;
+    snakeMoved = false;
 }
 
 function shiftSegs(s){
@@ -273,7 +273,7 @@ function endGame() {
 
 function setScore(newScore){
     score = newScore;
-    document.getElementById("score").textContent = "SCOREz: " + score + "\n";
+    document.getElementById("score").textContent = "SCORE: " + score + "\n";
 }
 
 function interpolateRGB(start,end,step,totalSteps){
@@ -303,17 +303,17 @@ window.onclick = function(event) {
 var cellSlider = document.getElementById("cellSizeSlider");
 
 cellSlider.oninput = function(){
-    document.getElementById("cellSizeText").textContent = "SNEK CELL SIZE: " + cellSlider.value + "px";
+    document.getElementById("cellSizeText").textContent = "CELL SIZE: " + cellSlider.value + "px";
     cellX = parseInt(cellSlider.value);
     cellY = parseInt(cellSlider.value);
     calculateNumCells();
-    resetSnek();
+    resetsnake();
     console.log("cellX: " + cellX + "cellY: " + cellY + "numXCells: " + numXCells + "numYCells: " + numYCells );
 }
 
-var speedSlider = document.getElementById("snekSpeedSlider");
+var speedSlider = document.getElementById("snakeSpeedSlider");
 
 speedSlider.oninput = function(){
-    document.getElementById("snekSpeedText").textContent = "SNEK SPEED: " + speedSlider.value + "%";
-    snekSpeed = 1 - (parseInt(speedSlider.value) / 250);
+    document.getElementById("snakeSpeedText").textContent = "SPEED: " + speedSlider.value + "%";
+    snakeSpeed = 1 - (parseInt(speedSlider.value) / 250);
 }

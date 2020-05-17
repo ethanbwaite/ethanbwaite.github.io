@@ -67,6 +67,7 @@ Majority of this section is adapted from the w3schools modal tutorial*/
     overflow: auto; /* Enable scroll if needed */
     background-color: #000000; /* Fallback color */
     background-color: rgba(0,0,0,0); /* Black w/ opacity */
+    padding: 0px;
 }
 
 /* Modal Content/Box */
@@ -178,7 +179,7 @@ canvas {
     font-size: 36px;
     margin: 4px 2px;
     cursor: pointer;
-    transition-duration: 0.2s;
+    transition-duration: 0.1s;
     box-shadow: 0 10px #323232;
 
 }
@@ -213,7 +214,7 @@ canvas {
     font-size: 36px;
     margin: 4px 6px;
     cursor: pointer;
-    transition-duration: 0.2s;
+    transition-duration: 0.1s;
     box-shadow: 0 10px #323232;
 
 }
