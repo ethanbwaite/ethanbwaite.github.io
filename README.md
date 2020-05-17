@@ -2,4 +2,4 @@
 
 ## Created over a weekend to teach myself how to use JavaScript
 
-## Live at: ethanbwaite.github.io/snake
+Live at: ethanbwaite.github.io/snake
